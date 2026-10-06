@@ -1,0 +1,242 @@
+spring:
+  application:
+    name: backend
+
+  # Database Configuration
+  # PostgreSQL is used because this project uses PGVector for vector storage
+  # and similarity search. PGVector is a PostgreSQL extension.
+  # Using another database may require changes to vector storage,
+  # database configuration, migrations, and related code.
+  datasource:
+    url: jdbc:postgresql://localhost:5432/app
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  # Hibernate / JPA Configuration
+  jpa:
+    # Logs generated SQL queries. Useful during development.
+    show-sql: true
+    # Keeps the JPA EntityManager from being used outside the service transaction.
+    # Lazy-loaded data should be explicitly loaded inside the transaction.
+    open-in-view: false
+    hibernate:
+      # Flyway manages database schema changes.
+      # Hibernate only validates that the entities match the database schema.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # Formats SQL queries in the logs for better readability.
+        format_sql: true
+
+  # Redis Configuration
+  # is used for caching and token blacklisting.
+  # Replacing Redis with another solution may require changes to the
+  # cache configuration and Redis-specific functionality.
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # Redis logical database. 0 is the default.
+      database: 0
+
+  # Flyway Database Migration Configuration
+  # Flyway manages database schema changes using versioned SQL migration files.
+  # Migrations are executed automatically when the application starts.
+  flyway:
+    enabled: true
+    # Creates a baseline for an existing database that does not have
+    # Flyway migration history. Useful when introducing Flyway to an
+    # existing database.
+    baseline-on-migrate: true
+    # Location of Flyway migration files.
+    # Example: src/main/resources/db/migration/
+    locations: classpath:db/migration
+
+  # Mail Configuration (Gmail)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          # Enables SMTP authentication.
+          auth: true
+          # Enables STARTTLS for a secure SMTP connection.
+          starttls:
+            enable: true
+            required: true
+          # Trusts the Gmail SMTP server certificate.
+          trust: smtp.gmail.com
+
+  # Spring AI Configuration (OpenAI)
+  ai:
+    openai:
+      # OpenAI API key is read from the environment variable.
+      api-key: ${OPENAI_API_KEY}
+      # Chat model configuration.
+      chat:
+        top-k:
+        options:
+          # OpenAI model used to generate text responses.
+          model: gpt-4o-mini
+          # Controls the randomness of generated responses.
+          # Lower values produce more deterministic responses.
+          temperature: 0.7
+      # Embedding model configuration.
+      embedding:
+        # Converts text into numerical vectors for semantic search and RAG.
+        model: text-embedding-3-small
+
+    # PGVector Configuration
+    vectorstore:
+      pgvector:
+        # Number of dimensions in each embedding vector.
+        # Must match the dimension of the stored vectors in PostgreSQL.
+        dimensions: 1536
+        # Distance method used for vector similarity searches.
+        distance-type: cosine_distance
+        # Index used to improve vector similarity search performance.
+        index-type: hnsw
+        # Prevents Spring AI from automatically creating the PGVector schema/table.
+        # The database schema is managed separately, for example with Flyway.
+        initialize-schema: false
+        # PostgreSQL schema containing the vector table.
+        schema-name: public
+        # Table used to store documents and their embeddings.
+        table-name: vector_store
+
+
+# Management / Actuator Configuration
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: [ health, info, metrics ]
+  endpoint:
+    health:
+      # Shows detailed health information.
+      # Consider restricting this in production.
+      show-details: always
+  # Exposes environment information through /actuator/info.
+  info:
+    env:
+      enabled: true
+  # Adds the application name to exported metrics.
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# Swagger / OpenAPI Configuration
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+# Application-specific Configuration
+app:
+  features:
+
+    # Payment Gateway Configuration
+    payment:
+      razorpay:
+        enabled: true
+        key-id: ${RAZORPAY_KEY_ID}
+        key-secret: ${RAZORPAY_KEY_SECRET}
+        # Currency used for payments.
+        currency: INR
+        # Subscription amount in rupees.
+        subscription-amount: ${SUBSCRIPTION_AMOUNT:299}
+        # Subscription duration in days.
+        subscription-days: ${SUBSCRIPTION_DAYS:30}
+
+    # Application Mail Configuration
+    mail:
+      enabled: true
+      from-name: fin.ai
+      from: ${MAIL_USERNAME}
+
+  # OTP Configuration
+  otp:
+    # Number of digits in the OTP.
+    length: 6
+    # Maximum number of incorrect OTP attempts.
+    max-attempts: 3
+    # OTP validity period in milliseconds.
+    ttl: 300000 # 5 minutes
+    # Number of characters in the password-reset token.
+    reset-token-length: 8
+    # Password-reset token validity period in milliseconds.
+    reset-token-ttl: 600000 # 10 minutes
+    # Minimum time between OTP requests in seconds.
+    cooldown-seconds: 60
+
+  # JWT-based Authentication Configuration
+  security:
+    jwt:
+      # Issuer name included in the JWT token.
+      issuer: "fin.ai"
+      # HTTP header used to send the JWT.
+      header: "Authorization"
+      # Prefix used before the JWT value.
+      prefix: "Bearer "
+      # Access token expiration time in milliseconds.
+      access-token:
+        expiry: 3600000 # 1 hour
+      # Refresh token expiration time in milliseconds.
+      refresh-token:
+        expiry: 604800000 # 7 days
+
+    # RSA key pair used for signing and verifying JWT tokens.
+    rsa:
+      private-key-path: "classpath:keys/private_key.pem"
+      public-key-path: "classpath:keys/public_key.pem"
+
+    # CORS Configuration
+    cors:
+      # Origins allowed accessing the API.
+      allowed-origins:
+        - http://localhost:5173
+        - http://localhost:5174
+      # HTTP methods allowed by CORS.
+      allowed-methods: [ GET, POST, PUT, PATCH, DELETE, OPTIONS ]
+      # HTTP headers allowed by CORS.
+      allowed-headers: [ Authorization, Content-Type, X-Requested-With ]
+      # Response headers exposed to the browser.
+      exposed-headers:
+        - X-RateLimit-Remaining
+        - X-RateLimit-Replenish-Rate
+        - X-RateLimit-Burst-Capacity
+      # Allows browsers to send credentials with cross-origin requests.
+      allow-credentials: true
+      # How long browsers can cache the CORS preflight response.
+      max-age-seconds: 3600
+
+  # Firebase specific configuration for Sending Push Notifications
+  firebase:
+    enabled: true
+    credentials-path: ${FIREBASE_CREDENTIALS_PATH:classpath:credentials.json}
+
+# Server Configuration
+server:
+  # Default Spring Boot port.
+  port: 8080
+  servlet:
+    # The context path is the part of the URL that comes after the server name.
+    # For example, if the server name is http://localhost:8080 and the context path is /api,
+    # the full URL for an endpoint would be http://localhost:8080/api/endpoint.
+    context-path: /api
+
+# Application Information
+info:
+  app:
+    name: "fin.ai Backend"
+    description: "Backend for fin.ai"
+    version: "1.0.0"

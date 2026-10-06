@@ -1,0 +1,195 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Summary - fin.ai</title>
+
+  <link rel="stylesheet" href="../styles/email.css"/>
+</head>
+
+<body>
+
+<table
+    width="100%"
+    cellpadding="0"
+    cellspacing="0"
+    border="0"
+    class="email-wrapper"
+>
+  <tr>
+    <td align="center">
+
+      <table
+          width="100%"
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          class="email-container"
+      >
+
+        <!-- Header -->
+        <tr>
+          <td class="email-header">
+
+            <div class="email-brand">
+              fin.ai
+            </div>
+
+            <div class="email-subtitle">
+              Daily Summary
+            </div>
+
+          </td>
+        </tr>
+
+
+        <!-- Content -->
+        <tr>
+          <td class="email-content">
+
+            <p class="email-greeting">
+              Hello
+              <strong th:text="${name}">User</strong>,
+            </p>
+
+            <p class="email-description">
+              Here is your financial summary for today.
+            </p>
+
+
+            <!-- Net Balance -->
+            <div class="email-card">
+
+              <div class="email-card-label">
+                Net Balance
+              </div>
+
+              <div
+                  class="email-card-value"
+                  th:text="'₹' + ${#numbers.formatDecimal(
+                                    netBalance,
+                                    1,
+                                    'POINT',
+                                    2,
+                                    'DEFAULT'
+                                )}"
+              >
+                ₹0.00
+              </div>
+
+            </div>
+
+
+            <!-- Summary -->
+            <table
+                cellpadding="0"
+                cellspacing="0"
+                border="0"
+                class="summary-table"
+            >
+              <tr>
+
+                <td
+                    width="50%"
+                    class="summary-cell"
+                >
+                  <div class="summary-label">
+                    Total Income
+                  </div>
+
+                  <div
+                      class="summary-value income"
+                      th:text="'+₹' + ${#numbers.formatDecimal(
+                                            totalIncome,
+                                            1,
+                                            'POINT',
+                                            2,
+                                            'DEFAULT'
+                                        )}"
+                  >
+                    +₹0.00
+                  </div>
+                </td>
+
+
+                <td
+                    width="50%"
+                    class="summary-cell-right"
+                >
+                  <div class="summary-label">
+                    Total Expenses
+                  </div>
+
+                  <div
+                      class="summary-value expense"
+                      th:text="'-₹' + ${#numbers.formatDecimal(
+                                            totalExpenses,
+                                            1,
+                                            'POINT',
+                                            2,
+                                            'DEFAULT'
+                                        )}"
+                  >
+                    -₹0.00
+                  </div>
+                </td>
+
+              </tr>
+
+              <tr>
+                <td
+                    colspan="2"
+                    style="padding: 14px 0 0"
+                >
+                  <div class="summary-label">
+                    Transactions
+                  </div>
+
+                  <div
+                      class="summary-value"
+                      th:text="${transactionCount}"
+                  >
+                    0
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+
+            <!-- Transaction Message -->
+            <div
+                class="email-message"
+                th:if="${transactionCount == 0}"
+            >
+              No transactions recorded today.
+            </div>
+
+            <div
+                class="email-message"
+                th:if="${transactionCount > 0}"
+            >
+              Your detailed CSV report is attached to this email.
+            </div>
+
+          </td>
+        </tr>
+
+
+        <!-- Footer -->
+        <tr>
+          <td class="email-footer">
+            © 2026 fin.ai
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
