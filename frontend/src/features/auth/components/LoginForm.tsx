@@ -29,11 +29,11 @@ const LoginForm: React.FC<Props> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="w-full max-w-md mx-auto px-4 sm:px-0">
+    <div className="w-full">
       {/* Form Error */}
       <FormError error={formError} />
 
-      <form onSubmit={onSubmit} className="mt-6 space-y-4 sm:space-y-5">
+      <form onSubmit={onSubmit} className="mt-7 space-y-5">
         {/* Email */}
         <div>
           <label
@@ -52,14 +52,7 @@ const LoginForm: React.FC<Props> = ({
             value={email}
             placeholder="you@example.com"
             onChange={(e) => onEmailChange(e.target.value)}
-            className="
-              w-full rounded-lg border border-gray-300 bg-white
-              px-3.5 py-2.5 sm:px-4 sm:py-3
-              text-sm sm:text-base text-gray-900
-              outline-none transition
-              placeholder:text-gray-400
-              focus:border-blue-600 focus:ring-2 focus:ring-blue-100
-            "
+            className="w-full rounded-full border border-[#e8eaed] bg-[#f8fafd] px-4 py-3.5 text-sm text-[#202124] outline-none transition placeholder:text-[#9aa0a6] hover:border-[#dadce0] focus:border-[#1a73e8] focus:bg-white focus:ring-4 focus:ring-[#1a73e8]/10 sm:text-base"
           />
 
           <FieldErrorMessage message={fieldErrors.email} />
@@ -84,27 +77,14 @@ const LoginForm: React.FC<Props> = ({
               value={password}
               placeholder="Enter your password"
               onChange={(e) => onPasswordChange(e.target.value)}
-              className="
-                w-full rounded-lg border border-gray-300 bg-white
-                px-3.5 py-2.5 sm:px-4 sm:py-3 pr-11
-                text-sm sm:text-base text-gray-900
-                outline-none transition
-                placeholder:text-gray-400
-                focus:border-blue-600 focus:ring-2 focus:ring-blue-100
-              "
+              className="w-full rounded-full border border-[#e8eaed] bg-[#f8fafd] px-4 py-3.5 pr-12 text-sm text-[#202124] outline-none transition placeholder:text-[#9aa0a6] hover:border-[#dadce0] focus:border-[#1a73e8] focus:bg-white focus:ring-4 focus:ring-[#1a73e8]/10 sm:text-base"
             />
 
             <button
               type="button"
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="
-                absolute right-2.5 top-1/2 -translate-y-1/2
-                rounded-md p-1.5
-                text-gray-500 transition
-                hover:bg-gray-100 hover:text-gray-800
-                focus:outline-none focus:ring-2 focus:ring-blue-200
-              "
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-lg p-2 text-[#5f6368] transition hover:bg-[#eef2f8] hover:text-[#202124] focus:outline-none focus:ring-2 focus:ring-[#1a73e8]/30"
             >
               {showPassword ? (
                 <IoEyeOffOutline className="h-5 w-5" />
@@ -121,30 +101,17 @@ const LoginForm: React.FC<Props> = ({
         <button
           type="submit"
           disabled={isPending}
-          className="
-            flex w-full items-center justify-center
-            rounded-full bg-blue-600
-            px-4 py-2.5 sm:py-3
-            text-sm sm:text-base font-medium text-white
-            transition
-            hover:bg-blue-700
-            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-            disabled:cursor-not-allowed disabled:opacity-60
-          "
+          className="flex min-h-12 w-full items-center justify-center rounded-full bg-[#1a73e8] px-4 py-3 text-sm font-medium text-white shadow-[0_4px_12px_rgba(26,115,232,0.18)] transition hover:bg-[#1765cc] focus:outline-none focus:ring-2 focus:ring-[#1a73e8] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
         >
           {isPending ? "Signing in..." : "Login"}
         </button>
       </form>
 
-      <p className="mt-5 sm:mt-6 text-center text-sm text-gray-600">
+      <p className="mt-7 text-center text-sm text-[#5f6368]">
         Don't have an account?{" "}
         <Link
           to={ROUTES.signup}
-          className="
-            font-medium text-blue-700
-            underline underline-offset-4
-            hover:text-blue-800
-          "
+          className="font-medium text-[#1a73e8] transition-colors hover:text-[#174ea6] hover:underline hover:underline-offset-4"
         >
           Register
         </Link>
