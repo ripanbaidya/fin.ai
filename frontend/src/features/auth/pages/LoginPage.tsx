@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import LoginFormHeader from "../components/LoginFormHeader";
 import LoginForm from "../components/LoginForm";
-import { ROUTES } from "../../../routes/routePaths";
+import AuthLayout from "../components/AuthLayout";
 
 export default function LoginPage() {
   const {
@@ -17,25 +16,23 @@ export default function LoginPage() {
   } = useLogin();
 
   return (
-    <main className="flex min-h-screen w-full items-center justify-center bg-gray-50 px-4 py-8 font-sans sm:px-6">
-        <section className="w-full max-w-sm rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-          <header className="mb-8 text-center">
-            <Link to={ROUTES.home} className="text-xl font-bold tracking-tight text-gray-900">
-              fin
-            </Link>
-          </header>
-          <LoginFormHeader />
-          <LoginForm
-            email={email}
-            password={password}
-            fieldErrors={fieldErrors}
-            formError={formError}
-            isPending={isPending}
-            onEmailChange={setEmail}
-            onPasswordChange={setPassword}
-            onSubmit={handleSubmit}
-          />
-        </section>
-    </main>
+    <AuthLayout
+      imagePosition="left"
+      imageUrl="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85"
+      imageHeading="Make room for what matters."
+      imageDescription="A calmer, clearer view of your money starts here. Pick up right where you left off."
+    >
+      <LoginFormHeader />
+      <LoginForm
+        email={email}
+        password={password}
+        fieldErrors={fieldErrors}
+        formError={formError}
+        isPending={isPending}
+        onEmailChange={setEmail}
+        onPasswordChange={setPassword}
+        onSubmit={handleSubmit}
+      />
+    </AuthLayout>
   );
 }
