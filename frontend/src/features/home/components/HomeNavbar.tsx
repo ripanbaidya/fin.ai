@@ -14,10 +14,16 @@ const HomeNavbar: React.FC = () => {
       >
         <Link
           to="/home"
-          className="shrink-0 text-xl font-semibold tracking-tight text-[#202124]"
-        >
-          fin
-        </Link>
+            aria-label="fin home"
+            className="inline-flex min-w-0 shrink-0 items-center gap-2 rounded-full text-lg font-semibold tracking-tight text-[#202124] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8] focus-visible:ring-offset-2 sm:gap-2.5 sm:text-xl"
+          >
+            <img
+              src="/fin-icon.svg"
+              alt=""
+              className="h-8 w-8 shrink-0 sm:h-9 sm:w-9"
+            />
+            {/* <span>fin</span> */}
+          </Link>
 
         <div className="hidden items-center gap-7 sm:flex">
           <a
