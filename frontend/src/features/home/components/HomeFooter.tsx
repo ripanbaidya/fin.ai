@@ -48,7 +48,7 @@ export const HomeFooter: React.FC = () => (
           fin
         </span>
         <span className="text-xs text-[#80868b]">
-          © 2026 fin.ai · All rights reserved
+          © 2026 · All rights reserved
         </span>
       </div>
       <div className="flex items-center gap-2">
@@ -62,7 +62,7 @@ export const HomeFooter: React.FC = () => (
           <FaGithub size={15} />
         </a>
         <a
-          href="https://www.instagram.com/futurenoogler/"
+          href="https://www.instagram.com/ridominus/"
           target="_blank"
           rel="noreferrer"
           aria-label="Instagram"
