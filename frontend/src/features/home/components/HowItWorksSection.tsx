@@ -77,12 +77,12 @@ const HowItWorksSection: React.FC = () => (
           </div>
 
           {/* Simple follow-up */}
-          <div className="flex gap-2 pt-1">
-            <span className="rounded-full border border-[#dadce0] bg-white px-3 py-1.5 text-xs text-[#5f6368]">
+          <div className="flex flex-wrap gap-2 pt-1">
+            <span className="max-w-full rounded-full border border-[#dadce0] bg-white px-3 py-1.5 text-xs text-[#5f6368]">
               Where did I spend the most?
             </span>
 
-            <span className="rounded-full border border-[#dadce0] bg-white px-3 py-1.5 text-xs text-[#5f6368]">
+            <span className="max-w-full rounded-full border border-[#dadce0] bg-white px-3 py-1.5 text-xs text-[#5f6368]">
               Am I on track?
             </span>
           </div>
