@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { DashboardSummary } from "../dashboard.types";
 
 interface Props {
@@ -12,6 +13,7 @@ const fmt = (amount: number) =>
   }).format(amount);
 
 const SummaryCards: React.FC<Props> = ({ summary }) => {
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const { totalIncome, totalExpense, netBalance } = summary;
 
   // Calculate savings rate safely
@@ -59,13 +61,19 @@ const SummaryCards: React.FC<Props> = ({ summary }) => {
   ];
 
   return (
-    // Responsive grid:
-    // 2 cols on mobile → 3 on tablet → 4 on desktop
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div
+      className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+      onMouseLeave={() => setHoveredCard(null)}
+    >
       {cards.map((card) => (
         <div
           key={card.label}
-          className={`${card.bg} border ${card.border} rounded-lg p-4 min-w-0`}
+          onMouseEnter={() => setHoveredCard(card.label)}
+          className={`${card.bg} border ${card.border} rounded-lg p-3 sm:p-4 min-w-0 transition-opacity duration-200 ${
+            hoveredCard && hoveredCard !== card.label
+              ? "opacity-45"
+              : "opacity-100"
+          }`}
         >
           {/* Top row: label + icon */}
           <div className="flex items-center justify-between mb-2 gap-2">
@@ -84,8 +92,8 @@ const SummaryCards: React.FC<Props> = ({ summary }) => {
           {/* Value */}
           <p
             className={`
-              text-lg sm:text-xl font-semibold ${card.color}
-              truncate        /* prevents overflow on small screens */
+              text-base sm:text-xl font-semibold ${card.color}
+              break-words
             `}
           >
             {card.value}
