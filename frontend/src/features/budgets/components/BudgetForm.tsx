@@ -206,7 +206,7 @@ const BudgetForm: React.FC<Props> = ({
         </form>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 flex gap-2">
+        <div className="px-4 sm:px-6 py-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))] border-t border-gray-100 flex gap-2">
           <button
             onClick={handleSubmit}
             disabled={isPending}
