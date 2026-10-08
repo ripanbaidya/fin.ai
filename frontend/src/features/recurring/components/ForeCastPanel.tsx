@@ -143,9 +143,50 @@ const ForecastPanel: React.FC = () => {
               No scheduled transactions in the next {days} days.
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              {/* min width prevents collapse */}
-              <table className="w-full min-w-[600px]">
+            <>
+              <div className="divide-y divide-gray-100 sm:hidden">
+                {forecast.entries.map((entry, idx) => {
+                  const isIncome = entry.type === "INCOME";
+                  return (
+                    <article
+                      key={`mobile-${entry.projectedDate}-${entry.title}-${idx}`}
+                      className="space-y-1.5 px-4 py-3"
+                    >
+                      <div className="flex min-w-0 items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="break-words text-sm font-medium text-gray-800">
+                            {entry.title}
+                          </p>
+                          <p className="mt-0.5 text-xs text-gray-500">
+                            {formatDate(entry.projectedDate)}
+                            {entry.categoryName && (
+                              <span className="text-gray-400">
+                                {" "}
+                                · {entry.categoryName}
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                        <span
+                          className={`shrink-0 text-right text-sm font-medium ${
+                            isIncome ? "text-green-600" : "text-red-600"
+                          }`}
+                        >
+                          {isIncome ? "+" : "-"}
+                          {fmt(entry.amount)}
+                        </span>
+                      </div>
+                    </article>
+                  );
+                })}
+                <p className="px-4 py-3 text-xs text-gray-500">
+                  {forecast.entries.length} transaction
+                  {forecast.entries.length !== 1 ? "s" : ""} over {days} days
+                </p>
+              </div>
+
+              <div className="hidden overflow-x-auto sm:block">
+                <table className="w-full min-w-[520px]">
                 <thead>
                   <tr className="text-left text-xs text-gray-400 bg-gray-50 border-b border-gray-100">
                     <th className="px-4 py-2.5 font-medium whitespace-nowrap">
@@ -155,8 +196,7 @@ const ForecastPanel: React.FC = () => {
                       Title
                     </th>
 
-                    {/* Hide category on very small screens */}
-                    <th className="px-4 py-2.5 font-medium hidden sm:table-cell">
+                    <th className="hidden px-4 py-2.5 font-medium md:table-cell">
                       Category
                     </th>
 
@@ -201,7 +241,8 @@ const ForecastPanel: React.FC = () => {
                   </tr>
                 </tfoot>
               </table>
-            </div>
+              </div>
+            </>
           )}
         </>
       )}
