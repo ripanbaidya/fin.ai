@@ -161,7 +161,7 @@ export default function ChatPage() {
 
   // ── Normal chat render ──
   return (
-    <div className="flex h-[calc(100vh_-_5rem)] rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white relative">
+    <div className="relative flex h-[calc(100dvh_-_9rem)] min-h-0 w-full min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm md:h-[calc(100vh_-_5rem)]">
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/30 z-20 md:hidden"
@@ -171,7 +171,7 @@ export default function ChatPage() {
 
       <div
         className={`
-          fixed top-0 left-0 h-full w-64 bg-gray-50 border-r border-gray-200 z-30 flex flex-col
+          fixed top-0 left-0 h-full w-64 max-w-[calc(100vw-2rem)] bg-gray-50 border-r border-gray-200 z-30 flex flex-col
           transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:static md:w-60 md:shrink-0 md:translate-x-0 md:z-auto md:transition-none
@@ -239,7 +239,7 @@ export default function ChatPage() {
               {isCreatingSession ? "Starting..." : "Start a conversation"}
             </button>
 
-            <div className="mt-8 grid grid-cols-3 gap-2 sm:gap-3 text-xs text-gray-500 max-w-sm">
+            <div className="mt-8 grid w-full max-w-sm grid-cols-1 gap-2 text-xs text-gray-500 min-[400px]:grid-cols-3 sm:gap-3">
               {[
                 { icon: "🔍", label: "Semantic search over your transactions" },
                 { icon: "💡", label: "Budget & savings insights" },
