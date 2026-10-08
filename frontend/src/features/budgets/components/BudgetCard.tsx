@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { RiDeleteBinLine } from "react-icons/ri";
 import { budgetService } from "../budgetService";
 import { useAppQuery } from "../../../shared/hooks/useAppQuery";
 import Spinner from "../../../shared/components/ui/Spinner";
@@ -62,7 +63,7 @@ const BudgetCard: React.FC<Props> = ({ budget, onDelete, isDeleting }) => {
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
       {/* ── Summary row ── */}
-      <div className="flex items-center justify-between px-4 py-4">
+      <div className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3 min-w-0">
           {/* Expand toggle */}
           <button
@@ -84,7 +85,7 @@ const BudgetCard: React.FC<Props> = ({ budget, onDelete, isDeleting }) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex min-w-0 items-center justify-between gap-3 sm:shrink-0 sm:justify-end sm:gap-4">
           {/* Status badge — only shown when expanded and loaded */}
           {expanded && status && getStatusBadge()}
 
@@ -98,11 +99,14 @@ const BudgetCard: React.FC<Props> = ({ budget, onDelete, isDeleting }) => {
 
           {/* Delete */}
           <button
+            type="button"
             onClick={() => onDelete(budget.id)}
             disabled={isDeleting}
-            className="text-xs text-red-500 hover:text-red-700 disabled:opacity-40 transition-colors ml-2"
+            aria-label="Delete budget"
+            title="Delete budget"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-red-500 transition-colors hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Delete
+            <RiDeleteBinLine aria-hidden="true" size={18} />
           </button>
         </div>
       </div>
@@ -141,7 +145,7 @@ const BudgetCard: React.FC<Props> = ({ budget, onDelete, isDeleting }) => {
               </div>
 
               {/* Stats row */}
-              <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="grid grid-cols-1 gap-2 text-center min-[480px]:grid-cols-3 min-[480px]:gap-3">
                 <div className="bg-white border border-gray-200 rounded-lg py-2 px-3">
                   <p className="text-xs text-gray-400 mb-0.5">Spent</p>
                   <p className="text-sm font-semibold text-red-600">
