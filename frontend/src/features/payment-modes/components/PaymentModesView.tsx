@@ -59,7 +59,7 @@ const PaymentModesView: React.FC<Props> = (props) => {
   } = props;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+    <div className="mx-auto w-full min-w-0 max-w-3xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
