@@ -320,7 +320,7 @@ const NotificationBell: React.FC<Props> = ({ size = "md", align = "left" }) => {
       {/* Dropdown panel */}
       {open && (
         <div
-          className={`absolute ${align === "right" ? "right-0" : "left-0"} top-full mt-2 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden`}
+          className={`absolute ${align === "right" ? "right-0" : "left-0"} top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden`}
           style={{ maxHeight: "420px" }}
         >
           {/* Panel header */}
