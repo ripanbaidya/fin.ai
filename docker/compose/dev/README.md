@@ -1,124 +1,93 @@
-## Development Setup
-<!-- TODO: Improve the README -->
+## Development Setup Guide
 
-This guide covers running the application in **development mode** — where the Spring Boot backend runs directly on your
-machine via your **IDE**, and Docker is used only for infrastructure services, like - PostgreSQL, Redis etc.
+Welcome! This guide walks you through setting up your local environment for **active feature development and debugging**.
 
-> **When to use this:** Active feature development, debugging, or when you need hot-reload and full IDE support.
-
-## Architecture Overview
-
-```
-Machine
-├── IDE (IntelliJ / VS Code)     -> Spring Boot backend (port 8080)
-├── Browser / npm run dev        -> React frontend      (port 5173)
-└── Docker
-    ├── postgres        -> PostgreSQL + PgVector (port 5432)
-    └── redis           -> Redis                 (port 6379)
-```
+In this setup, your Spring Boot backend runs directly inside your **IDE** (giving you full hot-reload and debugging capabilities), while infrastructure services (PostgreSQL, Redis) run via Docker.
 
 ### Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-- Java 25 (with your IDE configured)
-- Node.js 22+
+Before you begin, ensure you have the following installed and running:
 
-### Steps
+- **Docker Desktop** (Make sure the application is running)
+- **Java 25** (Configured in your IDE of choice)
+- **Node.js** (Version `22+`)
 
-#### Step 1: Configure Environment Variables
+### Step-by-Step Setup
 
-The backend reads environment variables from your IDE run configuration (not a `.env` file by default).
+#### Step 1: Start Infrastructure Services
 
-1. Copy the template:
-   ```shell
-   cp docker/docker-compose/.env.example .env.local.reference
+Spin up the required database and cache containers using Docker Compose.
+
+1. Open your terminal and navigate to the development compose directory:
+
+   ```bash
+   cd docker/compose/dev
    ```
-2. Open your IDE run configuration for the Spring Boot application.
-3. Add the required variables from `.env.example` as environment variables.
 
-> See [`docker/docker-compose/.env.example`](../.env.example) for the full list and descriptions.
+2. Start the services in detached mode:
 
-**Minimum required variables for local dev:**
+   ```bash
+   docker compose up -d
+   ```
 
-| Variable                          | Notes                                         |
-|-----------------------------------|-----------------------------------------------|
-| `SPRING_PROFILES_ACTIVE`          | Set to `dev`                                  |
-| `SERVER_PORT`                     | `8080`                                        |
-| `GOOGLE_CLIENT_ID`                | Required for Google login                     |
-| `OPENAI_API_KEY`                  | Required for AI features (optional otherwise) |
-| `MAIL_USERNAME` / `MAIL_PASSWORD` | Required for email features                   |
+3. Verify that the containers (`PostgreSQL` and `Redis`) are running successfully:
+   ```bash
+   docker ps
+   ```
 
-> PostgreSQL and Redis connection details are pre-configured in the `dev` Spring profile to point to the local Docker
-> containers.
+#### Step 2: Configure & Run the Backend
 
-## Step 2: Start Infrastructure Services
+The Spring Boot backend reads its configuration from **IDE run configurations** rather than a `.env` file by default.
 
-From the project root:
+1. **Reference Configuration:** Look at `.env.example` inside the `backend` folder as a guide for required environment variables.
+2. **Firebase Setup:** Ensure your `credentials.json` file is placed in the correct classpath location for Firebase Cloud Messaging (FCM) notifications.
+3. **Run:** Start the backend application directly from your IDE or via your terminal.
 
-```shell
-cd docker/docker-compose/local
-docker-compose up -d
-```
+**Note** - [Click here to see complete guidence to configure Firebase Cloud Messaging(FCM)](/public/docs/Migrating%20FCM%20for%20Notification.md)
 
-This starts:
+#### Step 3: Configure & Run the Frontend
 
-- **PostgreSQL (PgVector)** on `localhost:5432`
-- **Redis** on `localhost:6379`
+Get the client-side application running locally.
 
-Verify containers are healthy:
+1. From the project root, navigate to the frontend directory:
 
-```shell
-docker-compose ps
-```
+   ```bash
+   cd frontend
+   ```
 
-## Step 3: Start the Backend
+2. Create your local environment configuration file:
 
-Run or debug the Spring Boot application from your IDE.
+   ```bash
+   cp .env.example .env
+   ```
 
-Once started, the API and Swagger docs are available at:
+   _(Update any specific environment variables inside the new `.env` file if needed)_
 
-```
-http://localhost:8080/api/v1/swagger-ui/index.html
-```
+3. Install dependencies and start the development server:
+   ```bash
+   npm install && npm run dev
+   ```
 
----
+#### Step 4: Verify Your Setup
 
-## Step 4: Start the Frontend
+Once everything is up and running, you can access your local application:
 
-From the project root:
+- Swagger/OpenAPI Documentation - http://localhost:8080/api/v1/swagger-ui/index.html
+- Frontend Application - http://localhost:5173/
 
-```shell
-cd frontend
-npm install # Only needed on first run or after dependency changes
-npm run dev
-```
+> 🎉 **You're all set!** Open the frontend URL, create an account, and start exploring.
 
-The frontend dev server starts at:
+### Stopping Services
 
-```
-http://localhost:5173
-```
+When you are done working, you can shut down the infrastructure containers:
 
-> For local dev, Vite proxies API calls to `localhost:8080`. You do **not** need `VITE_*` variables in docker-compose —
-> set them in `frontend/.env.local` instead.
+- **Stop containers (preserve data):**
 
-## Final Checklist
+  ```bash
+  docker compose down
+  ```
 
-| Service                                 | Status                 |
-|-----------------------------------------|------------------------|
-| Docker containers (`postgres`, `redis`) | ✅ Running              |
-| Spring Boot backend                     | ✅ Running on port 8080 |
-| React frontend                          | ✅ Running on port 5173 |
-
-Once everything is up, open `http://localhost:5173`, create an account, and start exploring. 🚀
-
-## Stopping Services
-
-```shell
-# Stop infrastructure containers
-cd docker/docker-compose/local
-docker-compose down
-
-# To also remove persisted data volumes
-docker-compose down -v
-```
+- **Stop containers and delete volumes (clears local database/cache data):**
+  ```bash
+  docker compose down -v
+  ```
