@@ -153,7 +153,7 @@ export default function RecurringPage() {
     }).format(n);
 
   return (
-    <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-0 space-y-6">
+    <div className="mx-auto w-full min-w-0 max-w-4xl space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="min-w-0">
