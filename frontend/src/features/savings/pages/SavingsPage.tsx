@@ -95,10 +95,10 @@ export default function SavingsPage() {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto space-y-5">
+    <div className="mx-auto w-full min-w-0 max-w-3xl space-y-5">
       {/* ── Header ── */}
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
           <h1 className="text-xl font-semibold text-gray-900">Savings Goals</h1>
           <p className="text-sm text-gray-500 mt-0.5">
             Track progress toward your financial targets.
@@ -109,19 +109,19 @@ export default function SavingsPage() {
             setCreateError(null);
             setShowForm(true);
           }}
-          className="text-sm bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+          className="w-full sm:w-auto text-sm bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
         >
           + New Goal
         </button>
       </div>
 
       {/* ── Status tabs ── */}
-      <div className="flex gap-1 border-b border-gray-200">
+      <div className="flex gap-1 overflow-x-auto border-b border-gray-200">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setStatusFilter(tab.key)}
-            className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px flex items-center gap-1.5 ${
+            className={`shrink-0 px-3 sm:px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px flex items-center gap-1.5 ${
               statusFilter === tab.key
                 ? "border-black text-black"
                 : "border-transparent text-gray-500 hover:text-gray-700"
