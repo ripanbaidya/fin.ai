@@ -56,7 +56,7 @@ const ContributeModal: React.FC<Props> = ({
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div className="bg-white rounded-xl shadow-xl w-full max-w-sm">
+        <div className="max-h-[calc(100dvh-2rem)] w-full max-w-sm overflow-y-auto rounded-xl bg-white shadow-xl">
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <h3 className="text-sm font-semibold text-gray-900">
@@ -75,7 +75,7 @@ const ContributeModal: React.FC<Props> = ({
             <p className="text-sm font-medium text-gray-800 truncate">
               {goal.title}
             </p>
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex flex-wrap justify-between gap-x-2 gap-y-1 text-xs text-gray-500 mt-1">
               <span>Saved: {fmt(goal.savedAmount)}</span>
               <span>Remaining: {fmt(remaining)}</span>
             </div>
@@ -119,7 +119,7 @@ const ContributeModal: React.FC<Props> = ({
 
               {/* Quick fill buttons */}
               {remaining > 0 && (
-                <div className="flex gap-2 mt-2">
+                <div className="grid grid-cols-1 gap-2 mt-2 min-[480px]:grid-cols-3">
                   {[
                     { label: "25%", val: remaining * 0.25 },
                     { label: "50%", val: remaining * 0.5 },
@@ -129,7 +129,7 @@ const ContributeModal: React.FC<Props> = ({
                       key={label}
                       type="button"
                       onClick={() => setAmount(val.toFixed(2))}
-                      className="text-xs px-2 py-1 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors"
+                      className="min-w-0 text-xs px-2 py-1 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors"
                     >
                       {label} ({fmt(val)})
                     </button>
