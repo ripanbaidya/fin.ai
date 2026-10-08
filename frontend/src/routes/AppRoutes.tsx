@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ROUTES } from "./routePaths";
 import PrivateRoute from "../shared/components/guards/PrivateRoute";
+import RoleRoute from "../shared/components/guards/RoleRoute";
 import Layout from "../shared/components/layout/Layout";
 
 import LoginPage from "../features/auth/pages/LoginPage";
@@ -33,17 +34,21 @@ const AppRoutes: React.FC = () => (
         </PrivateRoute>
       }
     >
-      <Route path={ROUTES.dashboard} element={<DashboardPage />} />
-      <Route path={ROUTES.transactions} element={<TransactionsPage />} />
-      <Route path={ROUTES.recurring} element={<RecurringPage />} />
-      <Route path={ROUTES.categories} element={<CategoriesPage />} />
-      <Route path={ROUTES.paymentModes} element={<PaymentModesPage />} />
-      <Route path={ROUTES.budgets} element={<BudgetsPage />} />
-      <Route path={ROUTES.savings} element={<SavingsPage />} />
-      <Route path={ROUTES.chat} element={<ChatPage />} />
-      <Route path={ROUTES.profile} element={<ProfilePage />} />
-      <Route path={ROUTES.about} element={<AboutPage />} />
-      <Route path={ROUTES.admin} element={<AdminPage />} />
+      <Route element={<RoleRoute role="user" />}>
+        <Route path={ROUTES.dashboard} element={<DashboardPage />} />
+        <Route path={ROUTES.transactions} element={<TransactionsPage />} />
+        <Route path={ROUTES.recurring} element={<RecurringPage />} />
+        <Route path={ROUTES.categories} element={<CategoriesPage />} />
+        <Route path={ROUTES.paymentModes} element={<PaymentModesPage />} />
+        <Route path={ROUTES.budgets} element={<BudgetsPage />} />
+        <Route path={ROUTES.savings} element={<SavingsPage />} />
+        <Route path={ROUTES.chat} element={<ChatPage />} />
+        <Route path={ROUTES.profile} element={<ProfilePage />} />
+        <Route path={ROUTES.about} element={<AboutPage />} />
+      </Route>
+      <Route element={<RoleRoute role="admin" />}>
+        <Route path={ROUTES.admin} element={<AdminPage />} />
+      </Route>
     </Route>
 
     {/* Catch-all */}
