@@ -1,3 +1,5 @@
+import { FiEdit2 } from "react-icons/fi";
+import { RiDeleteBinLine } from "react-icons/ri";
 import type { PaginationMeta } from "../../../types/api.types";
 import type { TransactionResponse } from "../transaction.types";
 
@@ -10,6 +12,42 @@ interface Props {
   onDelete: (id: string) => void;
   isDeleting: boolean;
 }
+
+interface TransactionActionsProps {
+  transaction: TransactionResponse;
+  onEdit: (transaction: TransactionResponse) => void;
+  onDelete: (id: string) => void;
+  isDeleting: boolean;
+}
+
+const TransactionActions: React.FC<TransactionActionsProps> = ({
+  transaction,
+  onEdit,
+  onDelete,
+  isDeleting,
+}) => (
+  <div className="flex items-center justify-end gap-1">
+    <button
+      type="button"
+      onClick={() => onEdit(transaction)}
+      aria-label="Edit transaction"
+      title="Edit transaction"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full text-blue-600 transition-colors hover:text-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+    >
+      <FiEdit2 aria-hidden="true" size={16} />
+    </button>
+    <button
+      type="button"
+      onClick={() => onDelete(transaction.id)}
+      disabled={isDeleting}
+      aria-label="Delete transaction"
+      title="Delete transaction"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full text-red-600 transition-colors hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      <RiDeleteBinLine aria-hidden="true" size={17} />
+    </button>
+  </div>
+);
 
 const formatAmount = (amount: number) =>
   new Intl.NumberFormat("en-IN", {
@@ -40,10 +78,65 @@ const TransactionTable: React.FC<Props> = ({
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-      {/* Horizontal scroll wrapper (CRITICAL for responsiveness) */}
-      <div className="w-full overflow-x-auto">
-        <table className="w-full min-w-[800px]">
-          {/* min-w ensures table doesn't collapse */}
+      <div className="divide-y divide-gray-100 lg:hidden">
+        {transactions.map((txn) => (
+          <article key={txn.id} className="space-y-2.5 p-4">
+            <div className="flex min-w-0 items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="break-words text-sm font-medium text-gray-800">
+                  {txn.categoryName ?? "Uncategorized"}
+                </p>
+                <div className="mt-1 flex flex-wrap items-center gap-2">
+                  <span
+                    className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                      txn.type === "INCOME"
+                        ? "bg-green-50 text-green-700"
+                        : "bg-red-50 text-red-600"
+                    }`}
+                  >
+                    {txn.type}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {formatDate(txn.date)}
+                  </span>
+                </div>
+              </div>
+              <span
+                className={`shrink-0 text-right text-sm font-semibold ${
+                  txn.type === "INCOME" ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {txn.type === "INCOME" ? "+" : "-"}
+                {formatAmount(txn.amount)}
+              </span>
+            </div>
+
+            {(txn.paymentModeName || txn.note) && (
+              <div className="space-y-0.5 text-xs text-gray-500">
+                {txn.paymentModeName && (
+                  <p className="break-words">
+                    <span className="text-gray-400">Paid with </span>
+                    {txn.paymentModeName}
+                  </p>
+                )}
+                {txn.note && <p className="break-words">{txn.note}</p>}
+              </div>
+            )}
+
+            <div className="flex justify-end pt-1">
+              <TransactionActions
+                transaction={txn}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                isDeleting={isDeleting}
+              />
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="hidden w-full overflow-x-auto lg:block">
+        <table className="w-full min-w-[620px]">
 
           <thead>
             <tr className="text-left text-xs text-gray-400 uppercase tracking-wide bg-gray-50 border-b border-gray-100">
@@ -54,11 +147,11 @@ const TransactionTable: React.FC<Props> = ({
               </th>
 
               {/* Hide less important columns on small screens */}
-              <th className="px-4 py-3 font-medium whitespace-nowrap hidden sm:table-cell">
+              <th className="hidden px-4 py-3 font-medium whitespace-nowrap xl:table-cell">
                 Payment Mode
               </th>
 
-              <th className="px-4 py-3 font-medium hidden md:table-cell">
+              <th className="hidden px-4 py-3 font-medium xl:table-cell">
                 Note
               </th>
 
@@ -102,14 +195,14 @@ const TransactionTable: React.FC<Props> = ({
                 </td>
 
                 {/* Payment Mode (hidden on small screens) */}
-                <td className="px-4 py-3 text-sm text-gray-700 hidden sm:table-cell whitespace-nowrap">
+                <td className="hidden px-4 py-3 text-sm text-gray-700 whitespace-nowrap xl:table-cell">
                   {txn.paymentModeName ?? (
                     <span className="text-gray-400">—</span>
                   )}
                 </td>
 
                 {/* Note (hidden on smaller screens) */}
-                <td className="px-4 py-3 text-sm text-gray-500 max-w-[180px] truncate hidden md:table-cell">
+                <td className="hidden max-w-[180px] truncate px-4 py-3 text-sm text-gray-500 xl:table-cell">
                   {txn.note ?? <span className="text-gray-300">—</span>}
                 </td>
 
@@ -125,22 +218,12 @@ const TransactionTable: React.FC<Props> = ({
 
                 {/* Actions */}
                 <td className="px-4 py-3 text-right whitespace-nowrap">
-                  <div className="flex items-center justify-end gap-3">
-                    <button
-                      onClick={() => onEdit(txn)}
-                      className="text-xs text-blue-500 hover:text-blue-700 transition-colors whitespace-nowrap"
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      onClick={() => onDelete(txn.id)}
-                      disabled={isDeleting}
-                      className="text-xs text-red-500 hover:text-red-700 disabled:opacity-40 transition-colors whitespace-nowrap"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <TransactionActions
+                    transaction={txn}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    isDeleting={isDeleting}
+                  />
                 </td>
               </tr>
             ))}
