@@ -204,7 +204,7 @@ export default function TransactionsPage() {
 
   return (
     // Added padding for mobile safety
-    <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-0 space-y-5">
+    <div className="mx-auto w-full min-w-0 max-w-6xl space-y-5">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         {/* LEFT */}
