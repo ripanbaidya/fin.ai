@@ -23,7 +23,7 @@ export default function AdminPage() {
   const totalElements = data?.data?.pagination?.totalElements ?? 0;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-0 py-2 sm:py-4 space-y-4 sm:space-y-6">
+    <div className="mx-auto w-full min-w-0 max-w-5xl py-2 sm:py-4 space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
