@@ -1,10 +1,12 @@
+import { FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../shared/hooks/useAuth";
 import { getInitials } from "../../../shared/utils/profileHelpers";
 
 const HomeNavbar: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
-  const initials = getInitials(user?.fullName);
+  const profileName = user?.fullName?.trim();
+  const initials = profileName ? getInitials(profileName) : null;
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
@@ -51,16 +53,17 @@ const HomeNavbar: React.FC = () => {
               </Link>
               <Link
                 to="/profile"
-                className="rounded-full border border-[#dadce0]"
-                aria-label="Go to profile"
-                title="Profile"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e8f0fe] text-xs font-semibold text-[#1967d2] transition-colors hover:bg-[#d2e3fc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8] focus-visible:ring-offset-2"
+                aria-label={
+                  profileName ? `Go to profile for ${profileName}` : "Go to profile"
+                }
+                title={profileName || "Profile"}
               >
-                <span
-                  aria-hidden="true"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f0fe] text-xs font-medium text-[#1967d2]"
-                >
-                  {initials}
-                </span>
+                {initials ? (
+                  initials
+                ) : (
+                  <FiUser aria-hidden="true" className="h-5 w-5" />
+                )}
               </Link>
             </>
           ) : (
