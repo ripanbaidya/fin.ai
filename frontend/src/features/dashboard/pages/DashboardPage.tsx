@@ -30,7 +30,7 @@ export default function DashboardPage() {
   const isRefetching = isFetching && !isLoading;
 
   return (
-    <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-0 space-y-6">
+    <div className="mx-auto w-full min-w-0 max-w-6xl space-y-6">
       {/* ── Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="min-w-0">
@@ -72,48 +72,67 @@ export default function DashboardPage() {
             <SummaryCards summary={dashboard.summary} />
           </div>
 
-          {/* ── Daily Trend ── */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 overflow-x-auto">
-            <h2 className="text-sm font-medium text-gray-700 mb-4">
-              Daily Trend
-            </h2>
-            <div className="min-w-[300px] w-full">
+          {/* ── Daily income and expenses ── */}
+          <section
+            aria-labelledby="daily-trend-title"
+            className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 min-w-0"
+          >
+            <div className="mb-4">
+              <h2
+                id="daily-trend-title"
+                className="text-sm font-medium text-gray-700"
+              >
+                Income vs. expenses
+              </h2>
+              <p className="text-xs text-gray-400 mt-1">
+                Daily cash flow for the selected month
+              </p>
+            </div>
+            <div className="w-full min-w-0">
               <DailyTrendChart data={dashboard.dailyTrend} />
             </div>
-          </div>
+          </section>
 
           {/* ── Category Breakdowns ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 overflow-x-auto">
-              <div className="min-w-[280px] w-full">
-                <CategoryBreakdown
-                  title="Expense by Category"
-                  data={dashboard.expenseByCategory}
-                  type="expense"
-                />
-              </div>
-            </div>
+          <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-2">
+            <section
+              aria-label="Expenses by category"
+              className="min-w-0 rounded-lg border border-gray-200 bg-white p-4 sm:p-5"
+            >
+              <CategoryBreakdown
+                title="Expense by Category"
+                data={dashboard.expenseByCategory}
+                type="expense"
+              />
+            </section>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 overflow-x-auto">
-              <div className="min-w-[280px] w-full">
-                <CategoryBreakdown
-                  title="Income by Category"
-                  data={dashboard.incomeByCategory}
-                  type="income"
-                />
-              </div>
-            </div>
+            <section
+              aria-label="Income by category"
+              className="min-w-0 rounded-lg border border-gray-200 bg-white p-4 sm:p-5"
+            >
+              <CategoryBreakdown
+                title="Income by Category"
+                data={dashboard.incomeByCategory}
+                type="income"
+              />
+            </section>
           </div>
 
           {/* ── Top Expenses ── */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 overflow-x-auto">
-            <h2 className="text-sm font-medium text-gray-700 mb-4">
+          <section
+            aria-labelledby="top-expenses-title"
+            className="min-w-0 rounded-lg border border-gray-200 bg-white p-4 sm:p-5"
+          >
+            <h2
+              id="top-expenses-title"
+              className="text-sm font-medium text-gray-700"
+            >
               Top 5 Expenses
             </h2>
-            <div className="min-w-[300px] w-full">
+            <div className="mt-1 w-full min-w-0">
               <TopExpenses data={dashboard.topExpenses} />
             </div>
-          </div>
+          </section>
         </div>
       )}
     </div>
