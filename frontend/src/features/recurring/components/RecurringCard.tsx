@@ -1,3 +1,5 @@
+import { FiEdit2 } from "react-icons/fi";
+import { RiStopCircleLine } from "react-icons/ri";
 import type {
   RecurringTransactionResponse,
   RecurringFrequency,
@@ -137,18 +139,24 @@ const RecurringCard: React.FC<Props> = ({
           {/* Actions */}
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => onEdit(rule)}
-              className="text-xs text-gray-500 hover:text-gray-900 border border-gray-200 px-2.5 py-1 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+              aria-label="Edit recurring transaction"
+              title="Edit recurring transaction"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition-colors hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
             >
-              Edit
+              <FiEdit2 aria-hidden="true" size={16} />
             </button>
 
             <button
+              type="button"
               onClick={() => onDeactivate(rule.id)}
               disabled={isDeactivating}
-              className="text-xs text-red-500 hover:text-red-700 border border-red-100 px-2.5 py-1 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-40 whitespace-nowrap"
+              aria-label="Stop recurring transaction"
+              title="Stop recurring transaction"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-red-500 transition-colors hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Stop
+              <RiStopCircleLine aria-hidden="true" size={18} />
             </button>
           </div>
         </div>
