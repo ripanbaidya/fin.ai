@@ -104,7 +104,7 @@ public class AdminController {
     @GetMapping("/users/{id}")
     public ResponseEntity<ApiSuccessResponse<UserProfileDetails>> getProfileById(
             @Parameter(description = "User ID to fetch profile for", required = true)
-            @PathVariable String userId,
+            @PathVariable("id") String userId,
 
             @AuthenticationPrincipal UserPrincipal principal
     ) {
