@@ -71,7 +71,7 @@ export default function BudgetsPage() {
   const isRefetching = budgetQuery.isFetching && !budgetQuery.isLoading;
 
   return (
-    <div className="max-w-3xl mx-auto space-y-5">
+    <div className="mx-auto w-full min-w-0 max-w-3xl space-y-5">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
@@ -80,7 +80,7 @@ export default function BudgetsPage() {
             Set spending limits per category each month.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-end">
           <BudgetMonthNav month={month} onChange={setMonth} />
           <button
             onClick={() => {
