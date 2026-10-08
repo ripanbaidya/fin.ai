@@ -9,7 +9,7 @@ const SOCIAL_ICONS = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-2xl space-y-5 px-4 py-4 sm:px-6">
+    <div className="mx-auto w-full min-w-0 max-w-2xl space-y-5 py-4">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
           About {about.appName}
@@ -18,21 +18,21 @@ export default function AboutPage() {
 
       <section className="space-y-5 rounded-2xl border border-gray-200 bg-white p-5 sm:p-7">
         <dl className="border-t border-gray-100 pt-5">
-          <div className="flex items-center justify-between py-2">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
             <dt className="text-sm text-gray-500">Application Name</dt>
             <dd className="text-sm font-medium text-gray-900">
               {about.appName}
             </dd>
           </div>
 
-          <div className="flex items-center justify-between py-2">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
             <dt className="text-sm text-gray-500">Version</dt>
             <dd className="text-sm font-medium text-gray-900">
               {about.version}
             </dd>
           </div>
 
-          <div className="flex items-center justify-between py-2">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2">
             <dt className="text-sm text-gray-500">License</dt>
             <dd className="text-sm font-medium text-gray-900">
               {about.license}
@@ -44,7 +44,7 @@ export default function AboutPage() {
           <h2 className="text-xs font-medium normal-case tracking-wide text-gray-500">
             Social Links
           </h2>
-          <ul className="mt-3 flex flex-auto gap-3">
+          <ul className="mt-3 flex flex-wrap gap-3">
             {about.socialLinks.map(({ label, url }) => {
               const Icon = SOCIAL_ICONS[label];
               return (
