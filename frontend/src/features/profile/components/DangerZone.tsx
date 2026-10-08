@@ -6,66 +6,80 @@ interface Props {
   errorMessage?: string | null;
 }
 
-const DangerZone: React.FC<Props> = ({ onDeleteAccount, isDeleting, errorMessage }) => {
+const DangerZone: React.FC<Props> = ({
+  onDeleteAccount,
+  isDeleting,
+  errorMessage,
+}) => {
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
 
-  return (
-    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-      <div className="border-b border-gray-100 bg-gray-50 px-4 py-4 sm:px-5">
-        <div>
-          <p className="text-sm font-semibold text-gray-900">Account deletion</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-gray-500">
-            Confirm with your password. Deletion starts with an account grace period.
-          </p>
-        </div>
-      </div>
+  const close = () => {
+    setOpen(false);
+    setPassword("");
+  };
 
-      {/* Actions */}
-      <div className="px-4 sm:px-5 py-4 sm:py-5">
-        <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3 xs:gap-4">
+  const toggle = () => {
+    if (open) close();
+    else setOpen(true);
+  };
+
+  return (
+    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <div className="px-4 py-4 sm:px-5 sm:py-5">
+        <div className="flex flex-col justify-between gap-3 xs:flex-row xs:items-center xs:gap-4">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-900">Delete account</p>
-            <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">
-              Requests account deletion. Your account enters a grace period before permanent removal.
+            <p className="text-sm font-semibold text-gray-900">
+              Delete account
+            </p>
+            <p className="mt-0.5 text-xs leading-relaxed text-gray-400">
+              Your account enters a grace period before permanent removal.
             </p>
           </div>
+
           <button
-            onClick={() => setOpen((v) => !v)}
-            className="shrink-0 self-start xs:self-auto text-xs font-semibold text-red-700 border border-red-300 bg-red-50 px-4 py-2 rounded-lg hover:bg-red-100 transition"
+            type="button"
+            onClick={toggle}
+            className="shrink-0 self-start rounded-lg border border-red-300 bg-red-50 px-4 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-100 xs:self-auto"
           >
             Delete
           </button>
         </div>
 
         {open && (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50/60 p-4 space-y-3">
+          <div className="mt-4 space-y-3 rounded-xl border border-red-200 bg-red-50/60 p-4">
             <p className="text-xs text-red-700">
-              Enter your current password to confirm account deletion.
+              Enter your current password to confirm deletion.
             </p>
+
             <input
               type="password"
+              aria-label="Current password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Current password"
               className="w-full rounded-lg border border-red-200 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-red-500/30"
             />
-            {errorMessage ? <p className="text-xs text-red-600">{errorMessage}</p> : null}
-            <div className="flex items-center gap-2">
+
+            {errorMessage && (
+              <p className="text-xs text-red-600">{errorMessage}</p>
+            )}
+
+            <div className="flex gap-2">
               <button
-                onClick={() => {
-                  setOpen(false);
-                  setPassword("");
-                }}
+                type="button"
+                onClick={close}
                 disabled={isDeleting}
-                className="text-xs font-medium px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50"
+                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-medium hover:bg-gray-50 disabled:opacity-50"
               >
                 Cancel
               </button>
+
               <button
+                type="button"
                 onClick={() => onDeleteAccount(password)}
                 disabled={!password.trim() || isDeleting}
-                className="text-xs font-semibold px-3 py-2 rounded-lg text-white bg-red-600 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isDeleting ? "Deleting..." : "Confirm Delete"}
               </button>
