@@ -1,3 +1,4 @@
+import { RiDeleteBinLine } from "react-icons/ri";
 import type { GoalProgressResponse, GoalStatus } from "../savings.types";
 
 interface Props {
@@ -56,12 +57,12 @@ const GoalCard: React.FC<Props> = ({ goal, onContribute, onDelete, isDeleting })
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-5 space-y-4">
       {/* ── Top row ── */}
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm font-semibold text-gray-900 truncate">
             {goal.title}
           </p>
-          <div className="flex items-center gap-2 mt-0.5">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-0.5">
             <span className="text-xs text-gray-400">
               Deadline: {formatDate(goal.deadline)}
             </span>
@@ -77,7 +78,7 @@ const GoalCard: React.FC<Props> = ({ goal, onContribute, onDelete, isDeleting })
 
       {/* ── Progress bar ── */}
       <div>
-        <div className="flex justify-between text-xs text-gray-500 mb-1.5">
+        <div className="flex flex-wrap justify-between gap-x-2 gap-y-1 text-xs text-gray-500 mb-1.5">
           <span>
             Saved{" "}
             <span className="font-medium text-gray-700">
@@ -97,7 +98,7 @@ const GoalCard: React.FC<Props> = ({ goal, onContribute, onDelete, isDeleting })
       </div>
 
       {/* ── Stats row ── */}
-      <div className="grid grid-cols-3 gap-3 text-center">
+      <div className="grid grid-cols-1 gap-2 text-center min-[480px]:grid-cols-3 min-[480px]:gap-3">
         <div className="bg-gray-50 rounded-lg py-2 px-3">
           <p className="text-xs text-gray-400 mb-0.5">Target</p>
           <p className="text-sm font-semibold text-gray-700">
@@ -131,11 +132,14 @@ const GoalCard: React.FC<Props> = ({ goal, onContribute, onDelete, isDeleting })
           </button>
         )}
         <button
+          type="button"
           onClick={() => onDelete(goal.id)}
           disabled={isDeleting}
-          className="py-2 px-3 text-sm font-medium border border-red-200 rounded-lg text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+          aria-label="Delete savings goal"
+          title="Delete savings goal"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-red-500 transition-colors hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Delete
+          <RiDeleteBinLine aria-hidden="true" size={18} />
         </button>
       </div>
     </div>
