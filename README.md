@@ -418,7 +418,7 @@ docker compose up -d
 
 ### Q: Frontend shows API errors
 
-Check your `.env` file and make sure `VITE_API_BASE_URL` matches the backend URL.
+Check your `.env.example` file and make sure `VITE_API_BASE_URL` matches the backend URL.
 
 ### Q: AI chat does not work
 
