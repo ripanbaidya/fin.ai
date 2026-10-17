@@ -18,7 +18,8 @@ export default function SignupPage() {
   return (
     <AuthLayout
       imagePosition="right"
-      imageUrl="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1800&q=85"
+      imageUrl="/images/signup-hero.png"
+      imageFocalPoint="75% center"
       imageHeading="Build a money life that feels like yours."
       imageDescription="Bring spending, budgets, and savings into one thoughtful space—and take the next step with confidence."
     >
