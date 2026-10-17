@@ -13,7 +13,7 @@ public final class SecurityEndpoints {
     }
 
     public static final List<String> PUBLIC = List.of(
-            "/error", "/auth/**"
+            "/error", "/auth/**", "/payments/webhook"
     );
 
     public static final List<String> ACTUATOR = List.of(
