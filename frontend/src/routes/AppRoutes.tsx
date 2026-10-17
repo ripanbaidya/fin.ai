@@ -18,6 +18,7 @@ import ProfilePage from "../features/profile/pages/ProfilePage";
 import AboutPage from "../features/about/pages/AboutPage";
 import RecurringPage from "../features/recurring/pages/RecurringPage";
 import AdminPage from "../features/admin/pages/AdminPage";
+import SubscriptionPage from "../features/subscription/pages/SubscriptionPage";
 
 const AppRoutes: React.FC = () => (
   <Routes>
@@ -43,6 +44,7 @@ const AppRoutes: React.FC = () => (
         <Route path={ROUTES.budgets} element={<BudgetsPage />} />
         <Route path={ROUTES.savings} element={<SavingsPage />} />
         <Route path={ROUTES.chat} element={<ChatPage />} />
+        <Route path={ROUTES.subscription} element={<SubscriptionPage />} />
         <Route path={ROUTES.profile} element={<ProfilePage />} />
         <Route path={ROUTES.about} element={<AboutPage />} />
       </Route>
