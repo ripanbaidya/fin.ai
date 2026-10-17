@@ -18,7 +18,8 @@ export default function LoginPage() {
   return (
     <AuthLayout
       imagePosition="left"
-      imageUrl="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85"
+      imageUrl="/images/login-hero.png"
+      imageFocalPoint="30% center"
       imageHeading="Make room for what matters."
       imageDescription="A calmer, clearer view of your money starts here. Pick up right where you left off."
     >
