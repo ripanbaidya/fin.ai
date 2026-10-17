@@ -71,7 +71,7 @@ public class RagQueryService {
                 throw new IllegalStateException("System prompt file is empty: " + PROMPT_PATH);
             }
 
-            log.info("WalletIQ system prompt loaded ({} chars) from {}", queryPrompt.length(), PROMPT_PATH);
+            log.info("fin.ai system prompt loaded ({} chars) from {}", queryPrompt.length(), PROMPT_PATH);
         } catch (IOException e) {
             throw new IllegalStateException(ErrorCode.RAG_PROMPT_LOAD_FAILED.getDefaultMessage(), e);
         }
