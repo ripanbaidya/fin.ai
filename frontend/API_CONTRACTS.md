@@ -96,6 +96,25 @@ values include `INACTIVE`, `PENDING_VERIFICATION`, `ACTIVE`, and `DELETED`.
 Amounts are JSON numbers; dates use ISO date strings (`YYYY-MM-DD`), and budget
 months use `YYYY-MM`.
 
+## Subscriptions and payments
+
+| Method and path         | Request                                      | Success `data`                    |
+| ----------------------- | -------------------------------------------- | --------------------------------- |
+| `GET /payments/plans`   | —                                            | `PlanResponse[]`                  |
+| `POST /payments/orders` | `{ "plan": "MONTHLY" \| "YEARLY" \| "LIFETIME" }` | `CreateOrderResponse` (201)        |
+| `POST /payments/verify` | `{ "razorpayOrderId", "razorpayPaymentId", "razorpaySignature" }` | `null` |
+| `GET /payments/history` | —                                            | `PaymentHistoryResponse[]`        |
+| `GET /subscriptions/status` | —                                        | `SubscriptionStatusResponse`      |
+
+`PlanResponse`: `plan`, `priceInPaise`, `durationDays` (null for lifetime).
+`CreateOrderResponse`: `orderId`, `amountInPaise`, `currency`, `keyId`.
+`PaymentHistoryResponse`: `id`, `plan`, `provider`, `providerOrderId`,
+`providerPaymentId`, `amountInPaise`, `currency`, `status`, `createdAt`.
+`SubscriptionStatusResponse`: `hasActiveSubscription`, `plan`, `status`,
+`startDate`, `endDate`, `freePromptsUsed`, `freePromptsLimit`. Prices and amounts
+are in minor currency units; the frontend converts them for display and verifies
+checkout responses with the backend before presenting a subscription as active.
+
 ## Budgets, savings, and recurring transactions
 
 | Method and path                        | Request                                                                                                     | Success `data`                       |

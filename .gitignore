@@ -1,8 +1,8 @@
 # IDE or Editor Specific
 .idea/
+.junie
 .vscode/
 *.iml
-.junie
 
 # OS files
 .DS_Store
