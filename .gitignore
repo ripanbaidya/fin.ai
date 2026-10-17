@@ -1,5 +1,6 @@
 # IDE or Editor Specific
 .idea/
+.junie
 .vscode/
 *.iml
 
@@ -11,6 +12,7 @@
 # Backend
 backend/src/main/resources/keys/private_key.pem
 backend/src/main/resources/credentials.json
+.env
 
 # OS files
 .DS_Store
