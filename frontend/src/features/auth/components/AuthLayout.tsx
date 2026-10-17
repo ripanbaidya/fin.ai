@@ -6,6 +6,7 @@ interface Props {
   children: ReactNode;
   imagePosition: "left" | "right";
   imageUrl: string;
+  imageFocalPoint: string;
   imageHeading: string;
   imageDescription: string;
 }
@@ -14,6 +15,7 @@ const AuthLayout: React.FC<Props> = ({
   children,
   imagePosition,
   imageUrl,
+  imageFocalPoint,
   imageHeading,
   imageDescription,
 }) => {
@@ -23,6 +25,7 @@ const AuthLayout: React.FC<Props> = ({
       className="relative isolate hidden min-h-screen flex-col justify-end overflow-hidden bg-cover bg-center p-10 text-white lg:flex lg:p-12 xl:p-16"
       style={{
         backgroundImage: `linear-gradient(180deg, rgba(20, 36, 54, 0.08) 0%, rgba(20, 36, 54, 0.18) 38%, rgba(20, 36, 54, 0.78) 100%), url("${imageUrl}")`,
+        backgroundPosition: `center, ${imageFocalPoint}`,
       }}
     >
       <div className="max-w-md">
