@@ -10,6 +10,7 @@ import ai.fin.rag.RagQueryService;
 import ai.fin.repository.ChatMessageRepository;
 import ai.fin.repository.ChatSessionRepository;
 import ai.fin.repository.UserRepository;
+import ai.fin.service.ChatAccessService;
 import ai.fin.service.ChatService;
 import ai.fin.shared.exception.ErrorCode;
 import ai.fin.shared.exception.types.ChatSessionException;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ChatServiceImpl implements ChatService {
 
     private final RagQueryService ragQueryService;
+    private final ChatAccessService chatAccessService;
 
     private final UserRepository userRepository;
     private final ChatMessageRepository chatMessageRepository;
@@ -72,6 +74,9 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional
     public ChatQueryResponse query(String userId, String sessionId, ChatQueryRequest request) {
+        // Check entitlement before processing the query
+        chatAccessService.checkAccess(userId);
+
         User user = currentUser(userId);
 
         ChatSession session = getOwnedSession(userId, sessionId);
@@ -89,6 +94,9 @@ public class ChatServiceImpl implements ChatService {
 
         // Persist assistant reply
         saveMessage(session, MessageRole.ASSISTANT, answer);
+
+        // Increment free usage after successful response
+        chatAccessService.incrementFreeUsage(userId);
 
         // Update session metadata
         session.setTitle(deriveTitle(session, request.question()));
