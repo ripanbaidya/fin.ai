@@ -142,20 +142,29 @@ springdoc:
 
 # Application-specific Configuration
 app:
+  # Chat Configuration
+  chat:
+    free-chat-limit: ${FREE_CHAT_LIMIT:5}
+
   features:
 
     # Payment Gateway Configuration
     payment:
       razorpay:
         enabled: true
-        key-id: ${RAZORPAY_KEY_ID}
-        key-secret: ${RAZORPAY_KEY_SECRET}
-        # Currency used for payments.
+        key-id: ${RAZORPAY_KEY_ID:rzp_test_TopeBpeyyjh5hd}
+        key-secret: ${RAZORPAY_KEY_SECRET:TzQma7ta793peOVxZovO0tuF}
         currency: INR
-        # Subscription amount in rupees.
-        subscription-amount: ${SUBSCRIPTION_AMOUNT:299}
-        # Subscription duration in days.
-        subscription-days: ${SUBSCRIPTION_DAYS:30}
+        webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:}
+      plans:
+        MONTHLY:
+          price-in-paise: ${PLAN_MONTHLY_PRICE:29900}
+          duration-days: 30
+        YEARLY:
+          price-in-paise: ${PLAN_YEARLY_PRICE:299900}
+          duration-days: 365
+        LIFETIME:
+          price-in-paise: ${PLAN_LIFETIME_PRICE:999900}
 
     # Application Mail Configuration
     mail:
