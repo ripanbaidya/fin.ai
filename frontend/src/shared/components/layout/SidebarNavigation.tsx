@@ -11,6 +11,7 @@ import {
   RiRepeat2Line,
   RiShieldUserLine,
   RiUserLine,
+  RiVipCrownLine,
 } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "../../../routes/routePaths";
@@ -70,6 +71,11 @@ const NAV_GROUPS: NavGroup[] = [
         label: "Payment Modes",
         path: ROUTES.paymentModes,
         icon: RiBankCardLine,
+      },
+      {
+        label: "Subscription",
+        path: ROUTES.subscription,
+        icon: RiVipCrownLine,
       },
     ],
   },
