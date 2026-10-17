@@ -41,4 +41,7 @@ public class User extends BaseEntity {
     @Column(name = "deletion_requested_at")
     private Instant deletionRequestedAt;
 
+    @Column(name = "free_chat_count", nullable = false)
+    private int freeChatCount = 0;
+
 }
