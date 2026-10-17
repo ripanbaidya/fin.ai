@@ -20,6 +20,7 @@ export const PROTECTED_ROUTES = {
   savings: '/savings',
   chat: '/chat',
   profile: '/profile',
+  subscription: '/subscription',
   about: '/about',
   admin: '/admin',
 } as const;
