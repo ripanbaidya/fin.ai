@@ -100,7 +100,7 @@ const EmailVerifyPanel: React.FC<Props> = ({ email, onClose, onVerified }) => {
           </button>
         </header>
 
-        <div className="mt-6">
+        <div className="mt-4">
           {done ? (
             <div
               role="status"
@@ -111,8 +111,7 @@ const EmailVerifyPanel: React.FC<Props> = ({ email, onClose, onVerified }) => {
           ) : step === "ready" ? (
             <div className="space-y-4">
               <p className="text-sm leading-6 text-[#5f6368]">
-                We’ll email you a 6-digit verification code. Enter it here to
-                confirm your address.
+                We’ll send a 6-digit code to confirm this address.
               </p>
               {error && (
                 <p
@@ -204,16 +203,6 @@ const EmailVerifyPanel: React.FC<Props> = ({ email, onClose, onVerified }) => {
             </form>
           )}
         </div>
-
-        <footer className="mt-6 border-t border-[#f1f3f4] pt-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="min-h-10 w-full rounded-lg border border-[#dadce0] px-4 py-2 text-sm font-medium text-[#3c4043] transition-colors hover:bg-[#f8fafd]"
-          >
-            {done ? "Close" : "Cancel"}
-          </button>
-        </footer>
       </section>
     </>
   );
