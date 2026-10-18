@@ -1,4 +1,4 @@
-How to Configure Firebase Cloud Messaging (FCM) for Web
+## How to Configure Firebase Cloud Messaging (FCM) for Web
 
 1. **Create the Firebase project**
    - Open [Firebase Console](https://console.firebase.google.com/?utm_source=chatgpt.com)
